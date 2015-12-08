@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<extension version="1.0" type="plugin" group="j2store" method="upgrade">
+	<name>UBRR Payment Plugin for j2store</name>
+	<version>1.1</version>
+	<creationDate>2015</creationDate>
+	<author>itmosfera.ru</author>
+	<authorEmail>info@itmosfera.rug</authorEmail>
+	<authorUrl>http://itmosfera.ru</authorUrl>
+	<copyright>2</copyright>
+	<license>GNU General Public License v2 or later</license>
+	<description>Настройки УБРИР</description>
+	<files>
+		<filename plugin="payment_ubrir">payment_ubrir.php</filename>
+		<filename>index.html</filename>
+		<folder>payment_ubrir</folder>  	
+	</files>
+	<languages>
+        <language tag="en-GB">languages/en-GB.plg_j2store_payment_ubrir.ini</language>        
+    </languages>	
+	<config>
+	<fields name="params">
+		<fieldset name="basic">
+		<field type="getubrir" name="getubrir" description="" label="" default="" addfieldpath="plugins/j2store/payment_ubrir/payment_ubrir/fields"/>
+         
+		 <field name="two" type="radio" default="0" label="Два процессинга">
+            <option value="0">Да</option>
+            <option value="1">Нет</option>
+         </field>   
+         
+         <field type="text" name="twpg_id" size="100" label="ID интернет-магазина для VISA"
+               default="" description="VMPAYMENT_UBRR_CONFIGURATION_KEY_DESC"/>
+			   <field type="text" name="twpg_sert" size="100" label="Пароль к сертификату VISA"
+               default="" />
+        
+
+         <field name="uni_id" type="text" scope="com_virtuemart" default="" label="ID интернет-магазина для MasterCard"
+               />
+		 <field name="uni_login" type="text" scope="com_virtuemart" default="" label="Логин личного кабинета MasterCard"
+               />
+		 <field name="uni_pass" type="text" scope="com_virtuemart" default="" label="Пароль интернет-магазина для MasterCard"
+              />   
+	     <field name="uni_emp" type="text" scope="com_virtuemart" default="" label="Пароль личного кабинета MasterCard"
+               />   
+		</fieldset>
+	</fields>
+</config>				
+</extension>
