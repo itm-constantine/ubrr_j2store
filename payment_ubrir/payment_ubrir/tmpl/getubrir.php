@@ -23,7 +23,7 @@ class JFormFieldGetUbrir extends JFormField {
 							printf("Ошибка доступа к БД: %s\n", mysqli_connect_error());
 						exit();
 						}
-		$settingsyeah = $db_conn->query('SELECT * FROM '.$conf->dbprefix.'extensions WHERE name="ubrir"' )->fetch_assoc();			
+		$settingsyeah = $db_conn->query('SELECT * FROM '.$conf->dbprefix.'extensions WHERE name="UBRR Payment Module for j2store"' )->fetch_assoc();			
 			
 		$settingsyeah2 = json_decode($settingsyeah["params"], true );
 		$order_id = '';
