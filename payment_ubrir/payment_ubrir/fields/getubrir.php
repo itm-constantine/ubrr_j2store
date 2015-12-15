@@ -1,9 +1,18 @@
 <?php
-
+/**
+ * @package	J2Store payment module for Joomla!
+ * @version	1.0.0
+ * @author	itmosfera.ru
+ * @license	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */
 defined('_JEXEC') or die;
-//require(dirname(__FILE__).'/../library/UbrirClass.php');
 require(dirname(__FILE__).'/style.php');
-
+$task_ubrir = JRequest::getVar('task_ubrir');
+$shoporderidforstatus = JRequest::getVar('shoporderidforstatus');
+$mailsubject = JRequest::getVar('mailsubject');
+$maildesc = JRequest::getVar('maildesc');
+$mailem = JRequest::getVar('mailem');
+$status = JRequest::getVar('status');
 class JFormFieldGetUbrir extends JFormField {
 
 	/**
@@ -28,14 +37,18 @@ class JFormFieldGetUbrir extends JFormField {
 		$settingsyeah2 = json_decode($settingsyeah["params"], true );
 		$order_id = '';
 		$out = '';
+		$task_ubrir = JRequest::getVar('task_ubrir');
+		$shoporderidforstatus = JRequest::getVar('shoporderidforstatus');
+		$mailsubject = JRequest::getVar('mailsubject');
+		$maildesc = JRequest::getVar('maildesc');
+		$mailem = JRequest::getVar('mailem');
+		$status = JRequest::getVar('status');
 		
-		
-		
-		 if(!empty($_GET['task_ubrir'])) {
-			switch ($_GET['task_ubrir']) {
+		 if(!empty($task_ubrir)) {
+			switch ($task_ubrir) {
 				case '1':
-					if(!empty($_GET['shoporderidforstatus']) AND !empty($settingsyeah2["twpg_id"])  AND !empty($settingsyeah2["twpg_sert"])) {
-						$order_id = $_GET['shoporderidforstatus'];
+					if(!empty($shoporderidforstatus) AND !empty($settingsyeah2["twpg_id"])  AND !empty($settingsyeah2["twpg_sert"])) {
+						$order_id = $shoporderidforstatus;
 					
 						$answer = $db_conn->query('SELECT * FROM '.$conf->dbprefix.'j2store_orders WHERE order_id="'.$order_id.'"' )->fetch_assoc();			
 						if(!empty($answer['transaction_details'])) {
@@ -50,12 +63,12 @@ class JFormFieldGetUbrir extends JFormField {
 						}
 						else $out = '<div class="ubr_f">Получить статус данного заказа невозможно. Либо его не существует, либо он был оплачен через Uniteller</div>';	
 					}
-					if(empty($_GET['shoporderidforstatus'])) $out = '<div class="ubr_f">Вы не ввели номер заказа</div>';	
+					if(empty($shoporderidforstatus)) $out = '<div class="ubr_f">Вы не ввели номер заказа</div>';	
 					break;
 					
 				case '2':
-					if(!empty($_GET['shoporderidforstatus']) AND !empty($settingsyeah2["twpg_id"])  AND !empty($settingsyeah2["twpg_sert"])) {
-						$order_id = $_GET['shoporderidforstatus'];
+					if(!empty($shoporderidforstatus) AND !empty($settingsyeah2["twpg_id"])  AND !empty($settingsyeah2["twpg_sert"])) {
+						$order_id = $shoporderidforstatus;
 						
 						$answer = $db_conn->query('SELECT * FROM '.$conf->dbprefix.'j2store_orders WHERE order_id="'.$order_id.'"' )->fetch_assoc();
 						
@@ -71,12 +84,12 @@ class JFormFieldGetUbrir extends JFormField {
 						}
 						else $out = '<div class="ubr_f">Получить детализацию данного заказа невозможно. Либо его не существует, либо он был оплачен через Uniteller</div>';	
 					}
-					if(empty($_GET['shoporderidforstatus'])) $out = '<div class="ubr_f">Вы не ввели номер заказа</div>';	
+					if(empty($shoporderidforstatus)) $out = '<div class="ubr_f">Вы не ввели номер заказа</div>';	
 					break;
 					
 				case '3':
-					if(!empty($_GET['shoporderidforstatus']) AND !empty($settingsyeah2["twpg_id"])  AND !empty($settingsyeah2["twpg_sert"])) {
-						$order_id = $_GET['shoporderidforstatus'];
+					if(!empty($shoporderidforstatus) AND !empty($settingsyeah2["twpg_id"])  AND !empty($settingsyeah2["twpg_sert"])) {
+						$order_id = $shoporderidforstatus;
 						
 						$answer = $db_conn->query('SELECT * FROM '.$conf->dbprefix.'j2store_orders WHERE order_id="'.$order_id.'"' )->fetch_assoc();
 						if($answer['order_state_id'] == 1) {
@@ -91,7 +104,7 @@ class JFormFieldGetUbrir extends JFormField {
 								$res = $bankHandler->reverse_order();	
 								if($res == 'OK') {
 									$out = '<div class="ubr_s">Оплата успешно отменена</div>';
-									$db_conn->query('UPDATE '.$conf->dbprefix.'j2store_orders SET `order_state_id` = 6 WHERE order_id="'.$_GET['shoporderidforstatus'].'"' );
+									$db_conn->query('UPDATE '.$conf->dbprefix.'j2store_orders SET `order_state_id` = 6 WHERE order_id="'.$shoporderidforstatus.'"' );
 								}
 								else $out = $res;
 							}
@@ -99,7 +112,7 @@ class JFormFieldGetUbrir extends JFormField {
 						}
 						else $out = '<div class="ubr_f">Получить реверс данного заказа невозможно, он не был оплачен, либо его не существует</div>';
 					}
-					if(empty($_GET['shoporderidforstatus'])) $out = '<div class="ubr_f">Вы не ввели номер заказа</div>';	
+					if(empty($shoporderidforstatus)) $out = '<div class="ubr_f">Вы не ввели номер заказа</div>';	
 					break;
 
 				case '4':
@@ -132,10 +145,10 @@ class JFormFieldGetUbrir extends JFormField {
 					}     
 					break;	
 				case '7':
-					if(!empty($_GET['mailsubject'])  AND !empty($_GET['maildesc'])) {					
+					if(!empty($mailsubject)  AND !empty($maildesc)) {					
 							$to = 'info@itmosfera.ru';
-							 $subject = htmlspecialchars($_GET['mailsubject'], ENT_QUOTES);
-							 $message = 'Отправитель: '.htmlspecialchars($_GET['mailem'], ENT_QUOTES).' | '.htmlspecialchars($_GET['maildesc'], ENT_QUOTES);
+							 $subject = htmlspecialchars($mailsubject, ENT_QUOTES);
+							 $message = 'Отправитель: '.htmlspecialchars($mailem, ENT_QUOTES).' | '.htmlspecialchars($maildesc, ENT_QUOTES);
 							 $headers = 'From: '.$_SERVER["HTTP_HOST"];
 							 mail($to, $subject, $message, $headers);
 					}     

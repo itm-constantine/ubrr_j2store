@@ -1,5 +1,13 @@
 <?php
-
+/**
+ * @package J2Store payment module for Joomla!
+ * @version 1.0.0
+ * @author  itmosfera.ru
+ * @license GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */
+if(false) {
+  defined('_JEXEC') or die('Restricted access'); 
+}
 class Ubrir
 
 {
@@ -673,9 +681,9 @@ class Ubrir
 
 	 protected function send_xml($xml) 
 	   {
-		$ch = curl_init("https://91.208.121.201:7443/Exec");    // initialize curl handle
+		$ch = curl_init("https://twpg.ubrr.ru:8443/Exec");    // initialize curl handle
 		curl_setopt($ch, CURLOPT_POST, 1);
-		curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__)."/certs/ubrir.crt");
+		curl_setopt($ch, CURLOPT_CAINFO, dirname(__FILE__)."/certs/bank.crt");
 		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 1);
 		curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 		curl_setopt($ch, CURLOPT_SSLCERT, dirname(__FILE__)."/certs/user.pem");

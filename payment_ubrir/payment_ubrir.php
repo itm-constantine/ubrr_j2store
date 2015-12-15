@@ -1,8 +1,15 @@
 <?php
+/**
+ * @package	J2Store payment module for Joomla!
+ * @version	1.0.0
+ * @author	itmosfera.ru
+ * @license	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */
 defined('_JEXEC') or die('Restricted access');
 
 require(dirname(__FILE__).'/payment_ubrir/library/UbrirClass.php');
-
+$result = JRequest::getVar('result');
+$on = JRequest::getVar('on');
 class plgJ2StorePayment_ubrir extends J2StorePaymentPlugin {
 
 	const RELEASE = 'VM 3.0.9';
@@ -53,7 +60,6 @@ class plgJ2StorePayment_ubrir extends J2StorePaymentPlugin {
 							'decline_url' => JURI::root () .'plugins/j2store/payment_ubrir/payment_ubrir/tmpl/result.php?id='.$data['order_id'],
 							));                    
 		$response_order = $bankHandler->prepare_to_pay();
-		//var_dump($data['order_id']);
 		 if(!empty($response_order)) {	
 		$db =& JFactory::getDBO();
 		$sql = " UPDATE #__j2store_orders 
@@ -78,7 +84,7 @@ class plgJ2StorePayment_ubrir extends J2StorePaymentPlugin {
 	
 	function _postPayment( $data ) {
 	
-	switch ($_GET['result']) {
+	switch ($result) {
 				case '0':
 					return '<div style="padding: 5px;" class="alert-danger">Оплата не совершена</div>';                                                                                          //эти два пункта по Юнителлеру
 					break;		
@@ -103,16 +109,15 @@ class plgJ2StorePayment_ubrir extends J2StorePaymentPlugin {
 					$settingsyeah2 = json_decode($current0[0]->params, true );
 				
 					$db2 =& JFactory::getDBO();
-					$sql = "SELECT * FROM #__j2store_orders WHERE order_id = '".htmlspecialchars(stripslashes($_GET['on']))."'";
+					$sql = "SELECT * FROM #__j2store_orders WHERE order_id = '".htmlspecialchars(stripslashes($on))."'";
 					$db2->setQuery($sql);
 					$current = $db2->loadObjectList();
-					//var_dump($current); die;
 					if(empty($current)) exit('error_1101'); 
 					
 					
 					$bankHandler = new Ubrir(array(																											 // инициализируем объект операции в TWPG
 							'shopId' => $settingsyeah2["twpg_id"], 
-							'order_id' => $_GET['on'], 
+							'order_id' => $on, 
 							'sert' => $settingsyeah2["twpg_sert"],
 						    'twpg_order_id' => $current[0]->transaction_id, 
 						    'twpg_session_id' => $current[0]->transaction_details
@@ -121,7 +126,7 @@ class plgJ2StorePayment_ubrir extends J2StorePaymentPlugin {
 					if($bankHandler->check_status("APPROVED")) {
 					$sql = " UPDATE #__j2store_orders 
 					SET `order_state_id` = 1
-					WHERE `order_id` = ".htmlspecialchars(stripslashes($_GET['on']));
+					WHERE `order_id` = ".htmlspecialchars(stripslashes($on));
 					$db->setQuery($sql);
 					if(!$db->query()) exit('error_1101'); 
 					$out = '<div style="padding: 5px;" class="alert-success">Оплата успешно совершена</div>';
@@ -134,7 +139,7 @@ class plgJ2StorePayment_ubrir extends J2StorePaymentPlugin {
 					$db =& JFactory::getDBO();
 					$sql = " UPDATE #__j2store_orders 
 					SET `order_state_id` = 1
-					WHERE `order_id` = ".htmlspecialchars(stripslashes($_GET['on']));
+					WHERE `order_id` = ".htmlspecialchars(stripslashes($on));
 					$db->setQuery($sql);
 					if(!$db->query()) exit('error_1101'); 
 					return '<div style="padding: 5px;" class="alert-success">Оплата успешно совершена</div>';

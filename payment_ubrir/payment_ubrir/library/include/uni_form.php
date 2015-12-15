@@ -1,5 +1,13 @@
 <?php
-					
+	/**
+ * @package	J2Store payment module for Joomla!
+ * @version	1.0.0
+ * @author	itmosfera.ru
+ * @license	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */	
+ if(false) {
+  defined('_JEXEC') or die('Restricted access'); 
+}			
 	  $callbackurl = JURI::root () .'plugins/j2store/payment_ubrir/payment_ubrir/tmpl/result.php?id='.$data['order_id'];
 	  $sign = strtoupper(md5(md5($this->params->get('uni_id', 'PLG_J2STORE_PAYMENT_UBRIR')).'&'.md5($this->params->get('uni_login', 'PLG_J2STORE_PAYMENT_UBRIR')).'&'.md5($this->params->get('uni_pass', 'PLG_J2STORE_PAYMENT_UBRIR')).'&'.md5($data['order_id']).'&'.md5($twpg_amount)));
 	  echo '<form action="https://91.208.121.201/estore_listener.php" name="uniteller" method="post">

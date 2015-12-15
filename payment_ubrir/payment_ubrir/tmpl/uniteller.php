@@ -1,6 +1,14 @@
 <?php
+/**
+ * @package	J2Store payment module for Joomla!
+ * @version	1.0.0
+ * @author	itmosfera.ru
+ * @license	GNU/GPLv3 http://www.gnu.org/licenses/gpl-3.0.html
+ */
 require('../../../../../configuration.php');
-
+if(false) {
+  defined('_JEXEC') or die('Restricted access'); 
+}
 if (isset($_POST['SIGN'])) {
 				$sign = strtoupper(md5(md5($_POST['SHOP_ID']).'&'.md5($_POST["ORDER_ID"]).'&'.md5($_POST['STATE'])));
 				if ($_POST['SIGN'] == $sign) {

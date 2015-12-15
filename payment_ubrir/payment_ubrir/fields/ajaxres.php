@@ -30,7 +30,6 @@ class JFormFieldGetUbrir extends JFormField {
 	function getInput() {
 		
 		$mname = dirname("../..");
-		var_dump($_POST);
 		 if(!empty($_POST['task_ubrir']))
 	switch ($_POST['task_ubrir']) {
 				case '1':
