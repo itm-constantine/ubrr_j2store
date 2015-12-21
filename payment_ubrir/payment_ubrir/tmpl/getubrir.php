@@ -251,8 +251,8 @@ class JFormFieldGetUbrir extends JFormField {
 			  <input class="twpginput" type="button" onclick="document.location = document.location+\'&task_ubrir=3&shoporderidforstatus=\'+jQuery(\'#shoporderidforstatus\').val()" id="reversbutton" value="Вернуть деньги"><br>
 			</div>  
 			  <input class="twpgbutton" type="button" onclick="document.location = document.location+\'&task_ubrir=4\'" id="recresultbutton" value="Сверка итогов">
-			  <input class="twpgbutton" type="button" onclick="document.location = document.location+\'&task_ubrir=5\'" id="journalbutton" value="Журнал операций TWPG">
-			  <input class="twpgbutton" type="button" onclick="document.location = document.location+\'&task_ubrir=6\'" id="unijournalbutton" value="Журнал операций Uniteller">
+			  <input class="twpgbutton" type="button" onclick="document.location = document.location+\'&task_ubrir=5\'" id="journalbutton" value="Журнал операций Visa">
+			  <input class="twpgbutton" type="button" onclick="document.location = document.location+\'&task_ubrir=6\'" id="unijournalbutton" value="Журнал операций MasterCard">
 			  <input class="twpgbutton" type="button" onclick="jQuery(\'#callback\').toggle()" id="unijournalbutton" value="Написать в банк">
 			</div>
 			';			

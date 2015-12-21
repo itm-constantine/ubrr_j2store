@@ -542,6 +542,7 @@ class Ubrir
 	protected function xml_extract_journal_result($xml) {
         $parse_it = simplexml_load_string($xml);
         $status = $parse_it->Response->Status[0];
+        $out = '';
         switch ($status) {
           case '00':
             $count = $parse_it->Response->Operations->Count[0];

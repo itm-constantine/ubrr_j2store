@@ -8,10 +8,10 @@
 if (false) {
 	defined('_JEXEC') or die('Restricted access');
 }	
-$xmlmsg = JRequest::getVar('xmlmsg');
-$ORDER_IDP = JRequest::getVar('ORDER_IDP');
-$status = JRequest::getVar('status');
-$id = JRequest::getVar('id');
+$xmlmsg = $_POST['xmlmsg'];
+$ORDER_IDP = $_GET['ORDER_IDP'];
+$status = $_GET['status'];
+$id = $_GET['id'];
 
 		require('../../../../../configuration.php');
 		$url = "http://".$_SERVER["HTTP_HOST"].$_SERVER["REQUEST_URI"];
@@ -27,7 +27,11 @@ $id = JRequest::getVar('id');
 		  $xml_string = base64_decode($xmlmsg);
 		  $parse_it = simplexml_load_string($xml_string);
 		   
-		  if ($parse_it->OrderStatus[0]=="DECLINED") header("Location: ".$index."?option=com_j2store&view=checkout&task=confirmPayment&orderpayment_type=payment_ubrir&result=4&on=" . $id);
+		  if ($parse_it->OrderStatus[0]=="DECLINED") {
+		   $xml_string = base64_decode($xmlmsg);
+		  $parse_it = simplexml_load_string($xml_string); $desc = (string)$parse_it->ResponseDescription;
+		  header("Location: ".$index."?option=com_j2store&view=checkout&task=confirmPayment&orderpayment_type=payment_ubrir&result=4&desc=".$desc."&on=" . $id);
+		  }
 		  if ($parse_it->OrderStatus[0]=="APPROVED") header("Location: ".$index."?option=com_j2store&view=checkout&task=confirmPayment&orderpayment_type=payment_ubrir&result=2&on=" . $id);
 		 
 		};

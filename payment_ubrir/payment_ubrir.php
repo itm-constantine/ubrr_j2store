@@ -83,7 +83,8 @@ class plgJ2StorePayment_ubrir extends J2StorePaymentPlugin {
 
 	
 	function _postPayment( $data ) {
-	
+	$result = JRequest::getVar('result');
+	$on = JRequest::getVar('on');
 	switch ($result) {
 				case '0':
 					return '<div style="padding: 5px;" class="alert-danger">Оплата не совершена</div>';                                                                                          //эти два пункта по Юнителлеру
@@ -98,12 +99,13 @@ class plgJ2StorePayment_ubrir extends J2StorePaymentPlugin {
 					break;
 					
 				case '4':
-					return '<div style="padding: 5px;" class="alert-danger" class="ubr_f">Оплата отменена банком</div>';
+				    $desc = JRequest::getVar('desc');
+					return '<div style="padding: 5px;" class="alert-danger" class="ubr_f">Оплата отменена банком. Причина - '.$desc.'</div>';
 					break;
 					
 				case '2':
 					$db =& JFactory::getDBO();
-					$settingsyeah = 'SELECT * FROM #__extensions WHERE name="ubrir"';			
+					$settingsyeah = 'SELECT * FROM #__extensions WHERE name="UBRR Payment Plugin for j2store"';			
 					$db->setQuery($settingsyeah);
 					$current0 = $db->loadObjectList();
 					$settingsyeah2 = json_decode($current0[0]->params, true );
